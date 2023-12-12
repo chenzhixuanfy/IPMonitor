@@ -3,7 +3,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 import json
-import time
 import datetime
 import threading
 
@@ -15,12 +14,17 @@ class IPMonitor:
     
         self.mail_host = config["mail_host"]
         self.mail_user = config["mail_user"]
-        self.mail_pass = config["mail_pass"]
+        self.mail_pass = "wlzx87951669"
         self.sender = config["sender"]
         self.receivers = config["receivers"]
         self.period = config["period"]# 获取ip周期，单位：秒
         self.last_ip_address = None
 
+        # 新建log文件
+        with open("log.txt", "w"):
+            pass
+
+    def start(self):
         self.timer = threading.Timer(1, self.func_timer)
         self.timer.start()
     
@@ -32,15 +36,14 @@ class IPMonitor:
         subject = 'IPMonitor'
         message['Subject'] = Header(subject, 'utf-8')
         
-        
         try:
             smtpObj = smtplib.SMTP() 
             smtpObj.connect(self.mail_host, 25)    # 25 为 SMTP 端口号
             smtpObj.login(self.mail_user, self.mail_pass)  
             smtpObj.sendmail(self.sender, self.receivers, message.as_string())
-            print("Sent successfully")
+            self.write_log("Sent successfully")
         except smtplib.SMTPException:
-            print("Failed to send")
+            self.write_log("Failed to send")
     
     def get_host_ip(self):
         """
@@ -56,6 +59,13 @@ class IPMonitor:
 
         return ip
 
+    # 写入日志并打印
+    def write_log(self, text):
+        with open("log.txt", "a", encoding="utf-8") as f:
+            f.write(text)
+            f.write("\n")
+        print(text)
+
     def func_timer(self):        
         self.func_task()
 
@@ -66,12 +76,12 @@ class IPMonitor:
     def func_task(self):
         ip_address = self.get_host_ip()
         time_now = str(datetime.datetime.now())
-        print(time_now + ' ' + ip_address)
+        self.write_log(time_now + ' ' + ip_address)
         if(ip_address != self.last_ip_address):
             self.last_ip_address = ip_address
             self.send_mail(ip_address)
 
 if __name__ == "__main__":
     ip_monitor = IPMonitor()
-    
+    ip_monitor.start()
     

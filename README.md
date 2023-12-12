@@ -10,14 +10,19 @@ example_cc98.ps1是一个自动获取校内IP并发送到浙大邮箱的powershe
 ```json
 {
     "mail_host": "smtp.zju.edu.cn",
-    "mail_user": ZJU邮箱用户名，学号或者别名，不包括“@zju.edu.cn”,
-    "mail_pass": ZJU邮箱密码,
-    "sender": 发送邮箱（上面的用户名+@zju.edu.cn）,
+    "mail_user": "320010xxxx",
+    "sender": "320010xxxx@zju.edu.cn",
     "receivers": [接收邮箱列表],
     "period": 30
 }
 ```
 
-2. 运行IPMonitor\.py
+2. 在__init__函数中填入ZJU邮箱密码：
+```python
+self.mail_pass = ""
+```
+为了安全考虑，密码不放在config.json文件中（若以exe文件运行，密码不会被发现）。
 
-Windows平台可以使用 pyinstaller.exe IPMonitor\.py 命令打包成exe文件并放进计划任务开机自启。
+3. 运行IPMonitor\.py
+
+Windows平台可以使用 pyinstaller -F -i Steam\.ico IPMonitor\.py -n Steam 命令打包成exe文件并放进计划任务开机自启。运行exe文件时，别忘记把config.json文件放到exe文件所在目录中。
