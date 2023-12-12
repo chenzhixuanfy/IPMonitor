@@ -31,7 +31,7 @@ class IPMonitor:
     def send_mail(self, content):
         message = MIMEText(content, 'plain', 'utf-8')
         message['From'] = Header("IPMonitor")
-        message['To'] =  Header(self.mail_user)
+        message['To'] =  Header("User")
         
         subject = 'IPMonitor'
         message['Subject'] = Header(subject, 'utf-8')
@@ -44,7 +44,10 @@ class IPMonitor:
             self.write_log("Sent successfully")
         except smtplib.SMTPException:
             self.write_log("Failed to send")
+        except Exception as e:
+            self.write_log(str(e))# 无网络的情况
     
+    # 如果断网了，查询到的可能是断网前的ip
     def get_host_ip(self):
         """
         查询本机ip地址

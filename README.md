@@ -12,7 +12,7 @@ example_cc98.ps1是一个自动获取校内IP并发送到浙大邮箱的powershe
     "mail_host": "smtp.zju.edu.cn",
     "mail_user": "320010xxxx",
     "sender": "320010xxxx@zju.edu.cn",
-    "receivers": [接收邮箱列表],
+    "receivers": [接收邮箱列表，用“,”分隔],
     "period": 30
 }
 ```
