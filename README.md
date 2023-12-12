@@ -20,4 +20,4 @@ example_cc98.ps1是一个自动获取校内IP并发送到浙大邮箱的powershe
 
 2. 运行IPMonitor\.py
 
-Windows平台可以使用 pyinstaller.exe –F IPMonitor\.py 命令打包成exe文件并放进计划任务开机自启
+Windows平台可以使用 pyinstaller.exe IPMonitor\.py 命令打包成exe文件并放进计划任务开机自启。
